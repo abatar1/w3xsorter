@@ -46,9 +46,9 @@ void entry(void)
 						WCHAR wc_maxPlayersNum[2];
 
 						if ((readBuffer[0] == 'H') &&
-							(readBuffer[1] == 'M') &&
-							(readBuffer[2] == '3') &&
-							(readBuffer[3] == 'W'))
+						(readBuffer[1] == 'M') &&
+						(readBuffer[2] == '3') &&
+						(readBuffer[3] == 'W'))
 						{
 							size_t curPos = READING_START_OFFSET;
 							while (readBuffer[curPos]) curPos++;
