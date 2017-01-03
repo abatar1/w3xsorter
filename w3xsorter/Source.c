@@ -62,16 +62,15 @@ void entry(void)
 								littleEndianMaxPlayersNum[1] << 16 |
 								littleEndianMaxPlayersNum[2] << 8 |
 								littleEndianMaxPlayersNum[3]);
+
 							wsprintf(wc_maxPlayersNum, L"%d", maxPlayersNum);
-							CreateDirectory(wc_maxPlayersNum, NULL);
 							lstrcpy(newFileName, wc_maxPlayersNum);
 						}
 						else
 						{
-							LPWSTR undDirName = L"unidentified";
-							CreateDirectory(undDirName, NULL);
-							lstrcpy(newFileName, undDirName);
+							lstrcpy(newFileName, L"unidentified");
 						}
+						CreateDirectory(newFileName, NULL);
 
 						lstrcat(newFileName, L"\\");
 						lstrcat(newFileName, fileName);
