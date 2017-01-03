@@ -46,24 +46,17 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-debug
-release
-
-*.user
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.[Cc]ache
-*.ilk
+# Vs files
+*.db
+*.pdb
+*.ipdb
+*.idb
+*.opendb
 *.log
-*.lib
-*.sbr
-*.sdf
+*.tlog
+*.suo
+*.user
+
+*.obj
+*.iobj
+*.exe

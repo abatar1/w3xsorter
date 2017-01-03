@@ -4,7 +4,7 @@
 
 #include <windows.h>
 
-void EntryPoint(void)
+void entry(void)
 {
 	WIN32_FIND_DATA 	winFileData;
 	HANDLE			hFile;
