@@ -10,7 +10,7 @@ void EntryPoint(void)
 	HANDLE			hFile;
 	HANDLE			w3xFile;
 	
-	TCHAR			szPath[500];
+	TCHAR			szPath[MAX_PATH];
 	CHAR			readBuffer[64];
 	SIZE_T			startPos = 8;
 	LPWSTR			fileName;
@@ -40,7 +40,7 @@ void EntryPoint(void)
 
 					if (ReadFile(w3xFile, readBuffer, 64, NULL, NULL))
 					{
-						WCHAR newFileName[256];
+						WCHAR newFileName[MAX_PATH];
 						WCHAR wc_maxPlayersNum[2];
 
 						if ((readBuffer[0] == 'H') &&
