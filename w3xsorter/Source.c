@@ -4,15 +4,17 @@
 
 #include <windows.h>
 
+#define	READING_START_OFFSET 8
+#define	READ_BUFFER_SIZE 64
+
 void entry(void)
 {
 	WIN32_FIND_DATA 	winFileData;
 	HANDLE			hFile;
 	HANDLE			w3xFile;
-	
+
 	TCHAR			szPath[MAX_PATH];
-	CHAR			readBuffer[64];
-	SIZE_T			startPos = 8;
+	CHAR			readBuffer[READ_BUFFER_SIZE];
 	LPWSTR			fileName;
 
 	if (GetCurrentDirectory(sizeof(szPath), szPath))
@@ -38,7 +40,7 @@ void entry(void)
 						OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (!w3xFile) continue;
 
-					if (ReadFile(w3xFile, readBuffer, 64, NULL, NULL))
+					if (ReadFile(w3xFile, readBuffer, READ_BUFFER_SIZE, NULL, NULL))
 					{
 						WCHAR newFileName[MAX_PATH];
 						WCHAR wc_maxPlayersNum[2];
@@ -48,7 +50,7 @@ void entry(void)
 							(readBuffer[2] == '3') &&
 							(readBuffer[3] == 'W'))
 						{
-							size_t curPos = startPos;
+							size_t curPos = READING_START_OFFSET;
 							while (readBuffer[curPos]) curPos++;
 							curPos += 5;
 
