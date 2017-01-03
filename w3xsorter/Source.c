@@ -6,7 +6,7 @@
 
 void EntryPoint(void)
 {
-	WIN32_FIND_DATA winFileData;
+	WIN32_FIND_DATA 	winFileData;
 	HANDLE			hFile;
 	HANDLE			w3xFile;
 	
