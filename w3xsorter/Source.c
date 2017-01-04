@@ -3,13 +3,14 @@
 #pragma comment(linker, "/SECTION:.text,EWR")
 
 #include <windows.h>
+#include <Strsafe.h>
 
 #define	READING_START_OFFSET 8
 #define	READ_BUFFER_SIZE 64
 
 void entry(void)
 {
-	WIN32_FIND_DATA 	winFileData;
+	WIN32_FIND_DATA winFileData;
 	HANDLE			hFile;
 	HANDLE			w3xFile;
 
@@ -20,7 +21,7 @@ void entry(void)
 	if (GetCurrentDirectory(sizeof(szPath), szPath))
 	{
 		LPWSTR postfix = L"\\*.*";
-		lstrcat(szPath, postfix);
+		StringCchCat(szPath, wcslen(szPath) + wcslen(postfix) + 1, postfix);
 		hFile = FindFirstFile(szPath, &winFileData);
 
 		if (hFile != INVALID_HANDLE_VALUE)
@@ -54,26 +55,27 @@ void entry(void)
 							while (readBuffer[curPos]) curPos++;
 							curPos += 5;
 
-							CHAR littleEndianMaxPlayersNum[4];
+							WCHAR leMaxPlayersNum[4];
 							for (size_t i = 0; i < 4; i++)
-								littleEndianMaxPlayersNum[3 - i] = readBuffer[curPos + i];
+								leMaxPlayersNum[3 - i] = readBuffer[curPos + i];
 
-							size_t maxPlayersNum = (littleEndianMaxPlayersNum[0] << 24 |
-								littleEndianMaxPlayersNum[1] << 16 |
-								littleEndianMaxPlayersNum[2] << 8 |
-								littleEndianMaxPlayersNum[3]);
+							size_t maxPlayersNum = 
+								(leMaxPlayersNum[0] << 24 |
+								leMaxPlayersNum[1] << 16 |
+								leMaxPlayersNum[2] << 8 |
+								leMaxPlayersNum[3]);
 
 							wsprintf(wc_maxPlayersNum, L"%d", maxPlayersNum);
-							lstrcpy(newFileName, wc_maxPlayersNum);
+							StringCchCopy(newFileName, wcslen(wc_maxPlayersNum) + 1, wc_maxPlayersNum);
 						}
 						else
 						{
-							lstrcpy(newFileName, L"unidentified");
+							StringCchCopy(newFileName, wcslen(L"unidentified") + 1, L"unidentified");
 						}
 						CreateDirectory(newFileName, NULL);
 
-						lstrcat(newFileName, L"\\");
-						lstrcat(newFileName, fileName);
+						StringCchCat(newFileName, wcslen(newFileName) + wcslen(L"\\") + 1, L"\\");
+						StringCchCat(newFileName, wcslen(newFileName) + wcslen(fileName) + 1, fileName);
 
 						CloseHandle(w3xFile);
 
@@ -81,7 +83,7 @@ void entry(void)
 						DeleteFile(fileName);
 					}
 				}
-			} while (FindNextFile(hFile, &winFileData) != 0);
+			} while (FindNextFile(hFile, &winFileData));
 
 			FindClose(hFile);
 		}
